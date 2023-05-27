@@ -3,44 +3,42 @@
 package com.example.browar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import java.text.NumberFormat;
+import com.example.browar.repositories.BackendApi;
+import com.example.browar.repositories.models.GetBeersResponse;
+import com.example.browar.repositories.utilities.RetrofitInstance;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BrowseBeers extends AppCompatActivity {
-
-    private static final NumberFormat formatter = NumberFormat.getNumberInstance();
-
-    private double userWeight = 0.000;
-    private double userHeight = 0;
-
-    private TextView weightTextView;
-    private TextView heightTextView;
-    private TextView resultTextView;
+    private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
+    List<GetBeersResponse> beers = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private BeerAdapter beerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browse_beers);
 
-        weightTextView = (TextView) findViewById(R.id.weightTextView);
-        heightTextView = (TextView) findViewById(R.id.heightTextView);
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        beerAdapter = new BeerAdapter(beers);
+        recyclerView.setAdapter(beerAdapter);
 
-        // set amountEditText's TextWatcher
-        EditText field1 = (EditText) findViewById(R.id.weightEditText);
-        field1.addTextChangedListener(weightEditTextWatcher);
-
-        EditText field2 = (EditText) findViewById(R.id.heightEditText);
-        field2.addTextChangedListener(heightEditTextWatcher);
+        fetchBeers();
 
         Button returnButton = findViewById(R.id.returnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -52,50 +50,22 @@ public class BrowseBeers extends AppCompatActivity {
         });
     }
 
-    private void calculate() {
-        double result = userWeight / Math.pow(userHeight / 100.0, 2);
-        resultTextView.setText(formatter.format(result));
+    private void fetchBeers() {
+        Call<List<GetBeersResponse>> call = backendApi.getBeers();
+        call.enqueue(new Callback<List<GetBeersResponse>>() {
+            @Override
+            public void onResponse(Call<List<GetBeersResponse>> call, Response<List<GetBeersResponse>> response) {
+                if (response.isSuccessful()) {
+                    beers = response.body();
+                    beerAdapter = new BeerAdapter(beers);
+                    recyclerView.setAdapter(beerAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetBeersResponse>> call, Throwable t) {
+                // obsłuż błąd
+            }
+        });
     }
-
-    private final TextWatcher heightEditTextWatcher = new TextWatcher() {
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            try {
-                userHeight = Double.parseDouble(s.toString());
-                heightTextView.setText(formatter.format(userHeight));
-            }
-            catch (NumberFormatException e) {
-                heightTextView.setText("");
-                userHeight = 0;
-            }
-            calculate();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) { }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-    };
-
-    private final TextWatcher weightEditTextWatcher = new TextWatcher() {
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            try {
-                userWeight = Double.parseDouble(s.toString());
-                weightTextView.setText(formatter.format(userWeight));
-            }
-            catch (NumberFormatException e) {
-                weightTextView.setText("");
-                userWeight = 0.0;
-            }
-            calculate();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) { }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-    };
 }
