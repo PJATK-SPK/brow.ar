@@ -18,14 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".BMI" android:exported="true"/>
-        <activity android:name=".Calories" android:exported="true"/>
-        <activity android:name=".Eat" android:exported="true"/>
+        <activity android:name=".BrowseBeers" android:exported="true"/>
         <activity android:name=".Menu" android:exported="true"/>
-        <activity android:name=".RecipeDetails" android:exported="true"/>
-        <activity android:name=".HealthyDietQuiz" android:exported="true"/>
-        <activity android:name=".QuizResult" android:exported="true"/>
-        <activity android:name=".BMIChart" android:exported="true"/>
 
     </application>
 

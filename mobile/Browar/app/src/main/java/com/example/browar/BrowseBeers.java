@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 
-public class BMI extends AppCompatActivity {
+public class BrowseBeers extends AppCompatActivity {
 
     private static final NumberFormat formatter = NumberFormat.getNumberInstance();
 
@@ -29,7 +29,7 @@ public class BMI extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bmi);
+        setContentView(R.layout.browse_beers);
 
         weightTextView = (TextView) findViewById(R.id.weightTextView);
         heightTextView = (TextView) findViewById(R.id.heightTextView);
@@ -46,7 +46,7 @@ public class BMI extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BMI.this, Menu.class);
+                Intent intent = new Intent(BrowseBeers.this, Menu.class);
                 startActivity(intent);
             }
         });
