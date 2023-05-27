@@ -4,8 +4,7 @@ class GetBeers {
 
     execute(req, res) {
         const db = new Database();
-        const beers = db.getBeers();
-        res.send(beers);
+        db.getBeers().then((result) => res.status(200).json(result));
     }
 
 }

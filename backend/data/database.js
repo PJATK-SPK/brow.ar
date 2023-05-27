@@ -4,17 +4,29 @@ const { Pool } = pg;
 class Database {
 
     getBeers() {
-        const pool = this._getPool();
-        return new Promise((resolve, _) => {
-            const query = pool.query(`
+        const sql = `
             select b.id, b.name, m."name" as manufacturer_name, b.description, b.image_url
             from core.beers b
-            left join core.manufacturers m on b.manufacturer_id = m.id `, (error, results) => {
-                if (error) {
-                    resolve([]);
-                }
-                resolve(results.rows);
+            left join core.manufacturers m on b.manufacturer_id = m.id `;
+        return this._query(sql, []);
+    }
+
+    _query(sql, params) {
+        const pool = this._getPool();
+        return new Promise((resolve, _) => {
+            pool.connect().then(client => {
+                client.query(sql, params ?? [], (error, results) => {
+                    client.release();
+
+                    if (error) {
+                        console.error(error);
+                        resolve([]);
+                    } else {
+                        resolve(results.rows);
+                    }
+                });
             });
+
         });
     }
 
