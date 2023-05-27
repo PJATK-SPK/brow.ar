@@ -1,11 +1,12 @@
 // Imports
+import { APP_PORT } from "./config.js";
 import GetBeers from "./endpoints/get_beers.js";
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 const app = express();
-const port = process.env.PORT || 5001;
+const port = APP_PORT
 
 // Endpoints
 app.get('/beers', (req, res) => new GetBeers().execute(req, res));

@@ -1,4 +1,6 @@
+import { DB_HOST, DB_NAME, DB_PORT, DB_PASSWORD, DB_USER } from "../config.js";
 import pg from "pg";
+
 const { Pool } = pg;
 
 class Database {
@@ -32,11 +34,11 @@ class Database {
 
     _getPool() {
         return new Pool({
-            user: process.env.DB_USER,
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            password: process.env.DB_PASSWORD,
-            port: 5432,
+            user: DB_USER,
+            host: DB_HOST,
+            database: DB_NAME,
+            password: DB_PASSWORD,
+            port: DB_PORT
         })
     }
 
