@@ -20,7 +20,6 @@ import com.example.browar.repositories.utilities.RetrofitInstance;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +29,7 @@ public class BrowseBeers extends AppCompatActivity {
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
     List<GetBeersResponse> beers = new ArrayList<>();
     private RecyclerView recyclerView;
-    private BeerAdapter beerAdapter;
+    private BrowseBeersAdapter browseBeersAdapter;
 
     private EditText searchEditText;
 
@@ -41,8 +40,8 @@ public class BrowseBeers extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        beerAdapter = new BeerAdapter(beers);
-        recyclerView.setAdapter(beerAdapter);
+        browseBeersAdapter = new BrowseBeersAdapter(beers);
+        recyclerView.setAdapter(browseBeersAdapter);
 
         fetchBeers("");
 
@@ -68,7 +67,7 @@ public class BrowseBeers extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BrowseBeers.this, Menu.class);
+                Intent intent = new Intent(BrowseBeers.this, Start.class);
                 startActivity(intent);
             }
         });
@@ -81,8 +80,8 @@ public class BrowseBeers extends AppCompatActivity {
             public void onResponse(Call<List<GetBeersResponse>> call, Response<List<GetBeersResponse>> response) {
                 if (response.isSuccessful()) {
                     beers = response.body();
-                    beerAdapter = new BeerAdapter(beers);
-                    recyclerView.setAdapter(beerAdapter);
+                    browseBeersAdapter = new BrowseBeersAdapter(beers);
+                    recyclerView.setAdapter(browseBeersAdapter);
                 }
             }
 

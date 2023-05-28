@@ -20,7 +20,7 @@ public class Start extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Start.this, Menu.class);
+                Intent intent = new Intent(Start.this, BrowseBeers.class);
                 startActivity(intent);
             }
         });

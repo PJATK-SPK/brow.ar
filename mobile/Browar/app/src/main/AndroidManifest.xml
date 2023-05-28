@@ -14,7 +14,6 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Start" android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +21,7 @@
         </activity>
 
         <activity android:name=".BrowseBeers" android:exported="true"/>
-        <activity android:name=".Menu" android:exported="true"/>
+        <activity android:name=".Beer" android:exported="true"/>
 
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.browar;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import com.example.browar.repositories.models.GetBeersResponse;
 
 import java.util.List;
 
-public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.BeerViewHolder> {
+public class BrowseBeersAdapter extends RecyclerView.Adapter<BrowseBeersAdapter.BeerViewHolder> {
     private List<GetBeersResponse> beers;
 
     public static class BeerViewHolder extends RecyclerView.ViewHolder {
@@ -28,13 +29,13 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.BeerViewHolder
         }
     }
 
-    public BeerAdapter(List<GetBeersResponse> beers) {
+    public BrowseBeersAdapter(List<GetBeersResponse> beers) {
         this.beers = beers;
     }
 
     @Override
     public BeerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.beer_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.browse_beers_card, parent, false);
         return new BeerViewHolder(view);
     }
 
@@ -48,6 +49,15 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.BeerViewHolder
                 .load(beer.imageUrl)
                 .override(pixels)
                 .into(holder.beerImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Beer.class);
+                intent.putExtra("BEER_ID", beer.id);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
