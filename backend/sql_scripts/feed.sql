@@ -104,11 +104,6 @@ VALUES(
 INSERT INTO core."comments" (beer_id, "content") 
 VALUES(
     (SELECT id FROM core.beers WHERE name = 'Piwny Bączek'), 
-    'TODO');
-
-INSERT INTO core."comments" (beer_id, "content") 
-VALUES(
-    (SELECT id FROM core.beers WHERE name = 'Piwny Bączek'), 
     'Nieeee... Nie polecam tego pić, jedzie spirytem, że łuhuhu');
 
 INSERT INTO core."comments" (beer_id, "content") 
