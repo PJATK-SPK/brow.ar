@@ -42,15 +42,6 @@ public class Beer extends AppCompatActivity {
         int beerId = intent.getIntExtra("BEER_ID", 0);
 
         fetchBeer(beerId);
-
-//        Button returnButton = findViewById(R.id.returnButton);
-//        returnButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Beer.this, BrowseBeers.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void fetchBeer(int id) {

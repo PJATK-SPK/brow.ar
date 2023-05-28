@@ -12,5 +12,6 @@
    <string name="enter">Enter</string>
    <string name="browse_beers_header">Browse beers</string>
    <string name="browse_beers_text">Check beers from around the world!</string>
-   <string name="search_hint">Search beer!</string>
+   <string name="search_hint">Search beer</string>
+   <string name="add_beer">Add beer!</string>
 </resources>
