@@ -16,13 +16,14 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface BackendApi {
     @GET("manufacturers")
     Call<List<GetManufacturersResponse>> getManufacturers();
 
     @GET("beers")
-    Call<List<GetBeersResponse>> getBeers();
+    Call<List<GetBeersResponse>> getBeers(@Query("search") String search);
 
     @GET("beers/{id}")
     Call<GetBeerResponse> getBeer(@Path("id") int id);

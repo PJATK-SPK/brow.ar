@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.browar.repositories.BackendApi;
 import com.example.browar.repositories.models.GetBeersResponse;
@@ -17,6 +20,7 @@ import com.example.browar.repositories.utilities.RetrofitInstance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +32,8 @@ public class BrowseBeers extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BeerAdapter beerAdapter;
 
+    private EditText searchEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +44,25 @@ public class BrowseBeers extends AppCompatActivity {
         beerAdapter = new BeerAdapter(beers);
         recyclerView.setAdapter(beerAdapter);
 
-        fetchBeers();
+        fetchBeers("");
+
+        searchEditText = findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // not used
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // not used
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fetchBeers(s.toString());
+            }
+        });
 
         Button returnButton = findViewById(R.id.returnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -50,8 +74,8 @@ public class BrowseBeers extends AppCompatActivity {
         });
     }
 
-    private void fetchBeers() {
-        Call<List<GetBeersResponse>> call = backendApi.getBeers();
+    private void fetchBeers(String search) {
+        Call<List<GetBeersResponse>> call = backendApi.getBeers(search);
         call.enqueue(new Callback<List<GetBeersResponse>>() {
             @Override
             public void onResponse(Call<List<GetBeersResponse>> call, Response<List<GetBeersResponse>> response) {
