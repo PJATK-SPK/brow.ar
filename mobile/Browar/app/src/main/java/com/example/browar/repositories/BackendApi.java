@@ -35,7 +35,7 @@ public interface BackendApi {
     Call updateBeer(@Path("id") int beerId, @Body PatchBeerPayload beer);
 
     @DELETE("beers/{id}")
-    Call deleteBeer(@Path("id") int beerId);
+    Call <Void> deleteBeer(@Path("id") int beerId);
 
     @PUT("beers/{id}/rates")
     Call addOrUpdateBeerRate(@Path("id") int beerId, @Body PostBeerPayload beer);

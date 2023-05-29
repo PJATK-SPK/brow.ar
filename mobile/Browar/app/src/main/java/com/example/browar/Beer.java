@@ -2,6 +2,8 @@
 
 package com.example.browar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -58,6 +60,7 @@ public class Beer extends AppCompatActivity {
                     TextView beerDescription = findViewById(R.id.beer_description);
                     RatingBar beerRating = findViewById(R.id.beer_rating);
                     RecyclerView commentsSection = findViewById(R.id.comments_section);
+                    Button removeBeer = findViewById(R.id.remove_beer_button);
 
                     // Load beer image using library such as Glide or Picasso
                     Glide.with(Beer.this)
@@ -68,6 +71,30 @@ public class Beer extends AppCompatActivity {
                     beerName.setText(beer.details.name);
                     beerManufacturer.setText(beer.details.manufacturerName);
                     beerDescription.setText(beer.details.description);
+
+                    if (!beer.details.isMock) {
+                        removeBeer.setVisibility(View.VISIBLE);
+                    }
+
+                    removeBeer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                Call<Void> call = backendApi.deleteBeer(id);
+                                call.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        showPopup();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        // obsłuż błąd
+                                    }
+                                });
+
+
+                            }
+                    });
 
                     // Calculate average ratings and set rating bar
                     float averageRating = calculateAverageRating(beer.rates);
@@ -96,5 +123,23 @@ public class Beer extends AppCompatActivity {
             total += (rate.tasteRating + rate.colorRating + rate.aromaRating) / 3.0;
         }
         return total / rates.size();
+    }
+
+    public void showPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Beer deleted!")
+                .setMessage("Press OK to return to beer search window")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Handle OK button click
+                                dialog.dismiss();
+                                //setContentView(R.layout.browse_beers);
+                            }
+                        }
+                );
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
