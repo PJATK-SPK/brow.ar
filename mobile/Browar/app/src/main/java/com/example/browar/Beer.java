@@ -91,8 +91,6 @@ public class Beer extends AppCompatActivity {
                                         // obsłuż błąd
                                     }
                                 });
-
-
                             }
                     });
 
