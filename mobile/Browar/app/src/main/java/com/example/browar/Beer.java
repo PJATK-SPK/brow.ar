@@ -134,7 +134,8 @@ public class Beer extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Handle OK button click
                                 dialog.dismiss();
-                                //setContentView(R.layout.browse_beers);
+                                Intent intent = new Intent(Beer.this, BrowseBeers.class);
+                                startActivity(intent);
                             }
                         }
                 );
