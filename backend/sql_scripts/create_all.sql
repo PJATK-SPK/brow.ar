@@ -10,7 +10,7 @@ CREATE TABLE core.beers (
 	image_url varchar(300) not null,
 	manufacturer_id int null,
     is_mock BOOLEAN DEFAULT TRUE NOT NULL,
-	FOREIGN KEY (manufacturer_id) REFERENCES manufacturers(id)
+	FOREIGN KEY (manufacturer_id) REFERENCES core.manufacturers(id)
 );
 
 CREATE TABLE core.rates (
@@ -20,7 +20,7 @@ CREATE TABLE core.rates (
     color_rating INT CHECK (color_rating >= 1 AND color_rating <= 5),
     aroma_rating INT CHECK (aroma_rating >= 1 AND aroma_rating <= 5),
     is_mock BOOLEAN DEFAULT TRUE NOT NULL,
-    FOREIGN KEY (beer_id) REFERENCES beers(id)
+    FOREIGN KEY (beer_id) REFERENCES core.beers(id)
 );
 
 CREATE TABLE core.comments (
@@ -28,5 +28,5 @@ CREATE TABLE core.comments (
     beer_id INT NOT NULL,
     content varchar(3000) not null,
     is_mock BOOLEAN DEFAULT TRUE NOT NULL,
-    FOREIGN KEY (beer_id) REFERENCES beers(id)
+    FOREIGN KEY (beer_id) REFERENCES core.beers(id)
 );
