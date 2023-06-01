@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -20,10 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.browar.repositories.BackendApi;
 import com.example.browar.repositories.models.GetBeerResponse;
-import com.example.browar.repositories.models.GetBeerResponseComment;
 import com.example.browar.repositories.models.GetBeerResponseRate;
-import com.example.browar.repositories.models.GetBeersResponse;
 import com.example.browar.repositories.utilities.RetrofitInstance;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -34,6 +33,7 @@ import retrofit2.Response;
 public class Beer extends AppCompatActivity {
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
     private GetBeerResponse beer;
+    private static final int RATE_BEER_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,18 @@ public class Beer extends AppCompatActivity {
 
         fetchBeer(beerId);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Intent intent = getIntent();
+        int beerId = intent.getIntExtra("BEER_ID", 0);
 
-    private void fetchBeer(int id) {
+            // The RateBeer activity has finished successfully
+            // Refresh the Beer activity here
+            fetchBeer(beerId);
+    }
+
+    public void fetchBeer(int id) {
         Call<GetBeerResponse> call = backendApi.getBeer(id);
         call.enqueue(new Callback<GetBeerResponse>() {
             @Override
@@ -61,6 +71,7 @@ public class Beer extends AppCompatActivity {
                     RatingBar beerRating = findViewById(R.id.beer_rating);
                     RecyclerView commentsSection = findViewById(R.id.comments_section);
                     Button removeBeer = findViewById(R.id.remove_beer_button);
+                    Button rateBeer = findViewById(R.id.add_rating_button);
 
                     // Load beer image using library such as Glide or Picasso
                     Glide.with(Beer.this)
@@ -94,6 +105,24 @@ public class Beer extends AppCompatActivity {
                             }
                     });
 
+                    rateBeer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent intent = new Intent(Beer.this, RateBeer.class);
+                            intent.putExtra("beerId", id);
+                            for (GetBeerResponseRate rate : beer.rates) {
+                                if (!rate.isMock) {
+                                    intent.putExtra("isMocked", false);
+                                    intent.putExtra("taste", rate.tasteRating);
+                                    intent.putExtra("aroma", rate.aromaRating);
+                                    intent.putExtra("color", rate.colorRating);
+                                }
+                            }
+                            startActivityForResult(intent, RATE_BEER_REQUEST_CODE);
+                            };
+                    });
+
                     // Calculate average ratings and set rating bar
                     float averageRating = calculateAverageRating(beer.rates);
                     beerRating.setRating(averageRating);
@@ -112,6 +141,8 @@ public class Beer extends AppCompatActivity {
         });
     }
 
+
+
     private float calculateAverageRating(List<GetBeerResponseRate> rates) {
         if (rates == null || rates.isEmpty()) {
             return 0;
@@ -119,7 +150,9 @@ public class Beer extends AppCompatActivity {
         float total = 0;
         for (GetBeerResponseRate rate : rates) {
             total += (rate.tasteRating + rate.colorRating + rate.aromaRating) / 3.0;
+
         }
+
         return total / rates.size();
     }
 
