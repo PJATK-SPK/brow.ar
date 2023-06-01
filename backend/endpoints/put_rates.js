@@ -11,6 +11,17 @@ class PutRates {
             select id from core.rates
             where beer_id = $1 and is_mock = FALSE`;
 
+        const apiParams = [
+            req.body.tasteRating,
+            req.body.colorRating,
+            req.body.aromaRating
+        ];
+
+        if (apiParams.some(c => !c || c > 5 || c < 1)) {
+            res.status(400).json({ error: 'Invalid rate values. Please set 1-5' });
+            return;
+        }
+
         db.query(rateSql, pool, [beerId]).then((rates) => {
             if (rates.length === 0) {
                 const insertRateSql = `
@@ -20,9 +31,7 @@ class PutRates {
 
                 const insertRateParams = [
                     beerId,
-                    req.body.tasteRating,
-                    req.body.colorRating,
-                    req.body.aromaRating
+                    ...apiParams
                 ];
 
                 db.query(insertRateSql, pool, insertRateParams).then(ids => {
@@ -36,14 +45,12 @@ class PutRates {
             } else {
                 const updateRateSql = `
                     update core.rates
-                    set taste_rating = $1, color_rating = $2, aroma_rating = $3
-                    where id = $4`;
+                    set taste_rating = $2, color_rating = $3, aroma_rating = $4
+                    where id = $1`;
 
                 const updateRateParams = [
-                    req.body.tasteRating,
-                    req.body.colorRating,
-                    req.body.aromaRating,
-                    rates[0].id
+                    rates[0].id,
+                    ...apiParams
                 ];
 
                 db.query(updateRateSql, pool, updateRateParams).then(() => {
