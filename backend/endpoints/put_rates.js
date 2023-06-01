@@ -26,8 +26,12 @@ class PutRates {
                 ];
 
                 db.query(insertRateSql, pool, insertRateParams).then(ids => {
-                    const newRateId = ids[0].id;
-                    res.status(204).json({ id: newRateId });
+                    if (!ids || ids[0]?.id === undefined) {
+                        res.status(500).json({ error: 'Error while inserting new rate' });
+                    } else {
+                        const newRateId = ids[0].id;
+                        res.status(204).json({ id: newRateId });
+                    }
                 });
             } else {
                 const updateRateSql = `

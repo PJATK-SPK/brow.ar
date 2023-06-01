@@ -18,8 +18,12 @@ class PostComment {
         ];
 
         db.query(commentSql, pool, commentParams).then(ids => {
-            const newCommentId = ids[0].id;
-            res.status(201).json({ id: newCommentId });
+            if (!ids || ids[0]?.id === undefined) {
+                res.status(500).json({ error: 'Error while inserting new comment' });
+            } else {
+                const newCommentId = ids[0].id;
+                res.status(201).json({ id: newCommentId });
+            }
         });
     }
 

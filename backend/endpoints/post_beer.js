@@ -11,8 +11,6 @@ class PostBeer {
             values ($1, $2, $3, $4, FALSE)
             returning id`
 
-        console.log(req);
-
         const beerParams = [
             req.body.name,
             req.body.manufacturerId,
@@ -21,8 +19,12 @@ class PostBeer {
         ];
 
         db.query(beerSql, pool, beerParams).then(ids => {
-            const newBeerId = ids[0].id;
-            res.status(201).json({ id: newBeerId });
+            if (!ids || ids[0]?.id === undefined) {
+                res.status(500).json({ error: 'Error while inserting new rate' });
+            } else {
+                const newBeerId = ids[0].id;
+                res.status(201).json({ id: newBeerId });
+            }
         });
     }
 
