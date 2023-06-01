@@ -6,6 +6,7 @@ import com.example.browar.repositories.models.GetManufacturersResponse;
 import com.example.browar.repositories.models.PatchBeerPayload;
 import com.example.browar.repositories.models.PostBeerPayload;
 import com.example.browar.repositories.models.PostCommentPayload;
+import com.example.browar.repositories.models.PutRatesPayload;
 
 import java.util.List;
 import retrofit2.Call;
@@ -38,7 +39,7 @@ public interface BackendApi {
     Call <Void> deleteBeer(@Path("id") int beerId);
 
     @PUT("beers/{id}/rates")
-    Call addOrUpdateBeerRate(@Path("id") int beerId, @Body PostBeerPayload beer);
+    Call <PutRatesPayload> addOrUpdateBeerRate(@Path("id") int beerId, @Body PutRatesPayload beer);
 
     @POST("beers/{id}/comments")
     Call addComment(@Path("id") int beerId, @Body PostCommentPayload beer);
