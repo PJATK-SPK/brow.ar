@@ -20,7 +20,7 @@ class PostBeer {
 
         db.query(beerSql, pool, beerParams).then(ids => {
             if (!ids || ids[0]?.id === undefined) {
-                res.status(500).json({ error: 'Error while inserting new rate' });
+                res.status(500).json({ error: 'Error while inserting new beer' });
             } else {
                 const newBeerId = ids[0].id;
                 res.status(201).json({ id: newBeerId });
