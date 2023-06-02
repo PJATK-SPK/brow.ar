@@ -30,7 +30,7 @@ public interface BackendApi {
     Call<GetBeerResponse> getBeer(@Path("id") int id);
 
     @POST("beers")
-    Call addBeer(@Body PostBeerPayload beer);
+    Call <Void> addBeer(@Body PostBeerPayload beer);
 
     @PATCH("beers/{id}")
     Call updateBeer(@Path("id") int beerId, @Body PatchBeerPayload beer);

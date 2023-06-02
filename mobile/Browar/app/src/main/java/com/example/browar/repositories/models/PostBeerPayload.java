@@ -7,11 +7,25 @@ import java.util.List;
 public class PostBeerPayload {
     public String name;
 
-    @SerializedName("manufacturer_id")
     public int manufacturerId;
 
-    @SerializedName("image_url")
     public String imageUrl;
 
     public String description;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setManufacturerId(int manufacturerId) {
+        this.manufacturerId = manufacturerId;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

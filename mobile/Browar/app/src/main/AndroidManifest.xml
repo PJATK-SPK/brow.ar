@@ -23,6 +23,7 @@
         <activity android:name=".BrowseBeers" android:exported="true"/>
         <activity android:name=".Beer" android:exported="true"/>
         <activity android:name=".RateBeer" android:exported="true"/>
+        <activity android:name=".AddBeerActivity" android:exported="true"/>
 
     </application>
 

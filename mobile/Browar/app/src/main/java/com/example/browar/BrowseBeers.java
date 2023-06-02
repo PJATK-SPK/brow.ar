@@ -63,12 +63,12 @@ public class BrowseBeers extends AppCompatActivity {
             }
         });
 
-        Button returnButton = findViewById(R.id.addBeer);
-        returnButton.setOnClickListener(new View.OnClickListener() {
+        Button addBeerButton = findViewById(R.id.addBeer);
+        addBeerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(BrowseBeers.this, Start.class);
-//                startActivity(intent);
+                Intent intent = new Intent(BrowseBeers.this, AddBeerActivity.class);
+                startActivity(intent);
             }
         });
     }
