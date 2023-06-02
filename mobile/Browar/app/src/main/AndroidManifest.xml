@@ -24,6 +24,7 @@
         <activity android:name=".Beer" android:exported="true"/>
         <activity android:name=".RateBeer" android:exported="true"/>
         <activity android:name=".AddBeerActivity" android:exported="true"/>
+        <activity android:name=".AddCommentActivity" android:exported="true"/>
 
     </application>
 

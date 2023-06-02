@@ -42,7 +42,7 @@ public interface BackendApi {
     Call <PutRatesPayload> addOrUpdateBeerRate(@Path("id") int beerId, @Body PutRatesPayload beer);
 
     @POST("beers/{id}/comments")
-    Call addComment(@Path("id") int beerId, @Body PostCommentPayload beer);
+    Call <Void> addComment(@Path("id") int beerId, @Body PostCommentPayload beer);
 
     @DELETE("beers/{beerId}/comments/{commentId}")
     Call deleteComment(@Path("beerId") int beerId, @Path("commentId") int commentId);

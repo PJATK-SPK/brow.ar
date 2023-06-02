@@ -6,11 +6,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.browar.repositories.BackendApi;
 import com.example.browar.repositories.models.GetBeerResponse;
 import com.example.browar.repositories.models.GetBeerResponseRate;
+import com.example.browar.repositories.models.PostCommentPayload;
 import com.example.browar.repositories.utilities.RetrofitInstance;
 
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +39,7 @@ public class Beer extends AppCompatActivity {
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
     private GetBeerResponse beer;
     private static final int RATE_BEER_REQUEST_CODE = 1;
+    private static final int ADD_COMMENT_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,7 @@ public class Beer extends AppCompatActivity {
                     RecyclerView commentsSection = findViewById(R.id.comments_section);
                     Button removeBeer = findViewById(R.id.remove_beer_button);
                     Button rateBeer = findViewById(R.id.add_rating_button);
+                    Button addCommentButton = findViewById(R.id.add_comment_button);
 
                     // Load beer image using library such as Glide or Picasso
                     Glide.with(Beer.this)
@@ -123,6 +130,16 @@ public class Beer extends AppCompatActivity {
                             };
                     });
 
+                    // Button click listener for showing the add comment dialog
+                    addCommentButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Beer.this, AddCommentActivity.class);
+                            intent.putExtra("beerId", id); // Pass any necessary data to the AddCommentActivity
+                            startActivityForResult(intent, ADD_COMMENT_REQUEST_CODE);
+                        }
+                    });
+
                     // Calculate average ratings and set rating bar
                     float averageRating = calculateAverageRating(beer.rates);
                     beerRating.setRating(averageRating);
@@ -131,6 +148,7 @@ public class Beer extends AppCompatActivity {
                     BeerCommentsAdapter commentsAdapter = new BeerCommentsAdapter(beer.comments);
                     commentsSection.setLayoutManager(new LinearLayoutManager(Beer.this));
                     commentsSection.setAdapter(commentsAdapter);
+
                 }
             }
 
@@ -140,8 +158,6 @@ public class Beer extends AppCompatActivity {
             }
         });
     }
-
-
 
     private float calculateAverageRating(List<GetBeerResponseRate> rates) {
         if (rates == null || rates.isEmpty()) {
