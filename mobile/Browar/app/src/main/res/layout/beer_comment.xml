@@ -1,3 +1,14 @@
+<!--
+    Project: Mobile App for Beer rating and commenting (students project)
+
+    Description: In this app you can search your favorite beverage
+    find out what people think about it in the comments as well as by rating
+    and also rate it yourself according to your taste buds
+
+    Author: Pawel Badysiak
+    Author: Sandro Sobczynski
+    Author: Marcel Pankanin
+-->
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
