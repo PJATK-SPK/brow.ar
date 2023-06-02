@@ -1,6 +1,7 @@
 # Beer Rating and Commenting Mobile App
 
 ## Description
+### Video - https://streamable.com/upn3kr
 This mobile application project was developed as part of a university course. The idea for the application came from our shared experience of drinking beer and realizing that everyone had different opinions about it. We thought there should be a platform where people can read and share their opinions about various beers, as well as see the overall rating.
 
 The Beer Rating and Commenting Mobile App allows users to search for their favorite beers, read comments and ratings from other users, and rate beers based on their own taste preferences. It provides a convenient way to discover new beers and get insights from the beer-drinking community.
