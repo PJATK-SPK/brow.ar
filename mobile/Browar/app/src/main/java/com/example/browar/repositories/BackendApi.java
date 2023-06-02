@@ -45,5 +45,5 @@ public interface BackendApi {
     Call <Void> addComment(@Path("id") int beerId, @Body PostCommentPayload beer);
 
     @DELETE("beers/{beerId}/comments/{commentId}")
-    Call deleteComment(@Path("beerId") int beerId, @Path("commentId") int commentId);
+    Call <Void> deleteComment(@Path("beerId") int beerId, @Path("commentId") int commentId);
 }
