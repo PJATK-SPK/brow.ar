@@ -11,8 +11,17 @@
  */
 package com.example.browar.repositories.models;
 
+/**
+ * Class to define the response from retrieving manufacturers.
+ */
 public class GetManufacturersResponse {
+    /**
+     * The id of the manufacturer.
+     */
     public int id;
 
+    /**
+     * The name of the manufacturer.
+     */
     public String name;
 }

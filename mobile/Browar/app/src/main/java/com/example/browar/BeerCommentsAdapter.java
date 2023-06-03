@@ -31,6 +31,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Adapter for displaying the comments of a beer in a RecyclerView.
+ * It handles the creation and binding of the view holders for each comment.
+ * It also manages deleting comments through interactions with the backend server.
+ */
 public class BeerCommentsAdapter extends RecyclerView.Adapter<BeerCommentsAdapter.CommentViewHolder> {
     private List<GetBeerResponseComment> comments;
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
@@ -41,6 +46,13 @@ public class BeerCommentsAdapter extends RecyclerView.Adapter<BeerCommentsAdapte
         this.beerId = beerId;
     }
 
+    /**
+     * Creates a new view holder for a comment.
+     *
+     * @param parent   The ViewGroup into which the new view will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new CommentViewHolder that holds a View of the given view type.
+     */
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,6 +60,13 @@ public class BeerCommentsAdapter extends RecyclerView.Adapter<BeerCommentsAdapte
         return new CommentViewHolder(view);
     }
 
+    /**
+     * Binds the view holder for a comment with the comment data.
+     * It sets the content of the comment and handles the deletion of the comment.
+     *
+     * @param holder   The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         GetBeerResponseComment comment = comments.get(position);
@@ -90,11 +109,20 @@ public class BeerCommentsAdapter extends RecyclerView.Adapter<BeerCommentsAdapte
         }
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
         return comments.size();
     }
 
+    /**
+     * A view holder for a beer comment, which includes an avatar, the comment content,
+     * and a delete button.
+     */
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         ImageView avatar;
         TextView content;

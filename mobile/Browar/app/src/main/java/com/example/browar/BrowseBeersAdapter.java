@@ -26,6 +26,10 @@ import com.example.browar.repositories.models.GetBeersResponse;
 
 import java.util.List;
 
+/**
+ * Adapter for displaying the beers in a RecyclerView.
+ * It handles the creation and binding of the view holders for each beer.
+ */
 public class BrowseBeersAdapter extends RecyclerView.Adapter<BrowseBeersAdapter.BeerViewHolder> {
     private List<GetBeersResponse> beers;
 
@@ -44,12 +48,26 @@ public class BrowseBeersAdapter extends RecyclerView.Adapter<BrowseBeersAdapter.
         this.beers = beers;
     }
 
+    /**
+     * Creates a new view holder for a beer.
+     *
+     * @param parent   The ViewGroup into which the new view will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new BeerViewHolder that holds a View of the given view type.
+     */
     @Override
     public BeerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.browse_beers_card, parent, false);
         return new BeerViewHolder(view);
     }
 
+    /**
+     * Binds the view holder for a beer with the beer data.
+     * It sets the name and image of the beer and sets up a click listener for the beer.
+     *
+     * @param holder   The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(BeerViewHolder holder, int position) {
         GetBeersResponse beer = beers.get(position);
@@ -71,6 +89,11 @@ public class BrowseBeersAdapter extends RecyclerView.Adapter<BrowseBeersAdapter.
         });
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
     @Override
     public int getItemCount() {
         return beers.size();

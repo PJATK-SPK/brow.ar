@@ -28,10 +28,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity class responsible for adding a new comment.
+ * Extends AppCompatActivity to utilize features of the Android compatibility library.
+ */
 public class AddCommentActivity extends AppCompatActivity {
+    // Reference to the backend API to be used for making calls
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
+    // Id of the beer for which a comment is being added
     private int beerId;
 
+    /**
+     * This method is part of the Android activity lifecycle and gets called when the activity gets created.
+     * @param savedInstanceState Bundle object containing previously saved instance state, can be null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +79,10 @@ public class AddCommentActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method responsible for making a call to the backend API to add a comment.
+     * @param payload The payload containing the content of the comment to be added.
+     */
     private void addComment(PostCommentPayload payload) {
         backendApi.addComment(beerId, payload).enqueue(new Callback<Void>() {
             @Override

@@ -33,7 +33,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+/**
+ * This activity handles the display and management of a list of beers.
+ * It fetches the beers' details from a backend server and allows
+ * users to search beers by name and add new beers.
+ */
 public class BrowseBeers extends AppCompatActivity {
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
     List<GetBeersResponse> beers = new ArrayList<>();
@@ -42,6 +46,15 @@ public class BrowseBeers extends AppCompatActivity {
 
     private EditText searchEditText;
 
+    /**
+     * This method is executed when the activity is first created.
+     * It sets up a RecyclerView to display the beers, fetches the beers,
+     * sets up a search function, and sets up an "Add Beer" button.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                            being shut down then this Bundle contains the data it
+     *                            most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +95,11 @@ public class BrowseBeers extends AppCompatActivity {
         });
     }
 
+    /**
+     * Fetches the beers' details from the backend server based on the provided search keyword.
+     *
+     * @param search The keyword to search for beers.
+     */
     private void fetchBeers(String search) {
         Call<List<GetBeersResponse>> call = backendApi.getBeers(search);
         call.enqueue(new Callback<List<GetBeersResponse>>() {

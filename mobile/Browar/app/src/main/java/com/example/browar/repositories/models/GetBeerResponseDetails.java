@@ -13,19 +13,40 @@ package com.example.browar.repositories.models;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Class to define the detailed response for a beer.
+ */
 public class GetBeerResponseDetails {
+    /**
+     * The id of the beer.
+     */
     public int id;
 
+    /**
+     * The name of the beer.
+     */
     public String name;
 
+    /**
+     * The name of the manufacturer of the beer.
+     */
     @SerializedName("manufacturer_name")
     public String manufacturerName;
 
+    /**
+     * The URL of the image representing the beer.
+     */
     @SerializedName("image_url")
     public String imageUrl;
 
+    /**
+     * The description of the beer.
+     */
     public String description;
 
+    /**
+     * Boolean flag for mock beers.
+     */
     @SerializedName("is_mock")
     public boolean isMock;
 }

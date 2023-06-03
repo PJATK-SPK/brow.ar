@@ -39,13 +39,25 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+/**
+ * This activity handles the display and management of an individual beer's details.
+ * It fetches the beer's details from a backend server, calculates an average rating, and allows
+ * users to rate the beer, add comments and delete the beer.
+ */
 public class Beer extends AppCompatActivity {
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
     private GetBeerResponse beer;
     private static final int RATE_BEER_REQUEST_CODE = 1;
     private static final int ADD_COMMENT_REQUEST_CODE = 1;
 
+    /**
+     * This method is executed when the activity is first created.
+     * It fetches the beer's details based on the beer ID passed through the intent.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                            being shut down then this Bundle contains the data it
+     *                            most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +68,16 @@ public class Beer extends AppCompatActivity {
 
         fetchBeer(beerId);
     }
+
+    /**
+     * This method is called when an activity that was launched for a result has finished its execution.
+     * In this case, the beer details are refreshed by re-fetching the beer's details from the backend server.
+     *
+     * @param requestCode The integer request code originally supplied to startActivityForResult(),
+     *                    allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity through its setResult().
+     * @param data        An Intent, which can return result data to the caller.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -67,6 +89,11 @@ public class Beer extends AppCompatActivity {
             fetchBeer(beerId);
     }
 
+    /**
+     * Fetches the beer's details from the backend server based on the provided beer ID.
+     *
+     * @param id The ID of the beer to fetch.
+     */
     public void fetchBeer(int id) {
         Call<GetBeerResponse> call = backendApi.getBeer(id);
         call.enqueue(new Callback<GetBeerResponse>() {
@@ -164,6 +191,12 @@ public class Beer extends AppCompatActivity {
         });
     }
 
+    /**
+     * Calculates the average rating for a beer from a list of rating data.
+     *
+     * @param rates A list of rating data for the beer.
+     * @return The average rating as a float value.
+     */
     private float calculateAverageRating(List<GetBeerResponseRate> rates) {
         if (rates == null || rates.isEmpty()) {
             return 0;
@@ -177,6 +210,10 @@ public class Beer extends AppCompatActivity {
         return total / rates.size();
     }
 
+    /**
+     * Displays a popup message indicating the beer has been deleted. Once the user clicks OK,
+     * they are redirected to the BrowseBeers activity.
+     */
     public void showPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Beer deleted!")

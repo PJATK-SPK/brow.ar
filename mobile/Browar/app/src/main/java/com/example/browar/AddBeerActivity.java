@@ -31,6 +31,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activity for adding a new beer.
+ */
 public class AddBeerActivity extends AppCompatActivity {
 
     private EditText nameEditText;
@@ -42,6 +45,12 @@ public class AddBeerActivity extends AppCompatActivity {
 
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
 
+    /**
+     * Sets up the activity, finding views and setting click listeners.
+     * @param savedInstanceState if the activity is being re-initialized after
+     * previously being shut down then this Bundle contains the data it most
+     * recently supplied in onSaveInstanceState(Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +80,18 @@ public class AddBeerActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Navigates back to the Browse Beers page.
+     */
     private void getBackToBrowseBeersPage() {
         Intent intent = new Intent(AddBeerActivity.this, BrowseBeers.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * Retrieves the user input and sends a POST request to save a new beer.
+     */
     private void saveBeer() {
         // Get the values from the input fields
         String name = nameEditText.getText().toString();

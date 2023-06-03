@@ -11,6 +11,12 @@
  */
 package com.example.browar.repositories.models;
 
+/**
+ * Class to define payload for posting comments.
+ */
 public class PostCommentPayload {
+    /**
+     * The content of the comment.
+     */
     public String content;
 }

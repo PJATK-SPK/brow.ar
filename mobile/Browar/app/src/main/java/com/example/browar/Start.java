@@ -18,8 +18,20 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This is the entry point for the application. The user is presented with a button to
+ * navigate to the BrowseBeers activity, where they can see the list of available beers.
+ */
 public class Start extends AppCompatActivity {
 
+    /**
+     * Called when the activity is starting. Sets the layout for the start screen and
+     * sets up a button click listener to navigate to the BrowseBeers activity.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                            being shut down then this Bundle contains the data it
+     *                            most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

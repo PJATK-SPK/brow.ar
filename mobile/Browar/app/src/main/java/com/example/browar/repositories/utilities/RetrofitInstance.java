@@ -18,6 +18,10 @@ public class RetrofitInstance {
     private static Retrofit retrofit;
     private static final String BASE_URL = "https://browar-backend.herokuapp.com/";
 
+    /**
+     * Gets the singleton instance of Retrofit.
+     * @return the Retrofit instance
+     */
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()

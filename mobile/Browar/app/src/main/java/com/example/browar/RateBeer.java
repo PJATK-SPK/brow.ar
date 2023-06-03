@@ -27,9 +27,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * This activity allows the user to rate a beer on several criteria: taste, color, and aroma.
+ * After the user rates the beer and submits, the rating is sent to the backend server.
+ */
 public class RateBeer extends AppCompatActivity {
 
     private BackendApi backendApi = RetrofitInstance.getRetrofitInstance().create(BackendApi.class);
+
+    /**
+     * Called when the activity is starting.
+     * This is where most initialization should go: calling {@code setContentView(int)}
+     * to inflate the activity's UI, and getting extras from intent, such as the beer ID
+     * and possibly existing ratings.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously
+     *                            being shut down then this Bundle contains the data it
+     *                            most recently supplied.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
