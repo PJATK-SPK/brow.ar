@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.browar.bll.BeerAverageRatingCalculator;
 import com.example.browar.repositories.BackendApi;
 import com.example.browar.repositories.models.GetBeerResponse;
 import com.example.browar.repositories.models.GetBeerResponseRate;
@@ -173,7 +174,7 @@ public class Beer extends AppCompatActivity {
                     });
 
                     // Calculate average ratings and set rating bar
-                    float averageRating = calculateAverageRating(beer.rates);
+                    float averageRating = BeerAverageRatingCalculator.execute(beer.rates);
                     beerRating.setRating(averageRating);
 
                     // Set up RecyclerView with comments
@@ -189,25 +190,6 @@ public class Beer extends AppCompatActivity {
                 // obsłuż błąd
             }
         });
-    }
-
-    /**
-     * Calculates the average rating for a beer from a list of rating data.
-     *
-     * @param rates A list of rating data for the beer.
-     * @return The average rating as a float value.
-     */
-    private float calculateAverageRating(List<GetBeerResponseRate> rates) {
-        if (rates == null || rates.isEmpty()) {
-            return 0;
-        }
-        float total = 0;
-        for (GetBeerResponseRate rate : rates) {
-            total += (rate.tasteRating + rate.colorRating + rate.aromaRating) / 3.0;
-
-        }
-
-        return total / rates.size();
     }
 
     /**

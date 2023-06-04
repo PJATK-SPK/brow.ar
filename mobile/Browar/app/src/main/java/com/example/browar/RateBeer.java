@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.browar.bll.BeerRateChecker;
 import com.example.browar.repositories.BackendApi;
 import com.example.browar.repositories.models.PutRatesPayload;
 import com.example.browar.repositories.utilities.RetrofitInstance;
@@ -61,7 +62,6 @@ public class RateBeer extends AppCompatActivity {
         RatingBar ratingAroma = findViewById(R.id.ratingAroma);
         Button btnSubmit = findViewById(R.id.btnSubmit);
 
-
         if (!rateMocked) {
             ratingTaste.setRating(taste);
             ratingColor.setRating(color);
@@ -76,9 +76,7 @@ public class RateBeer extends AppCompatActivity {
             int aromaRating = (int) ratingAroma.getRating();
 
             // Validate the ratings
-            if (tasteRating < 1 || tasteRating > 5 ||
-                    colorRating < 1 || colorRating > 5 ||
-                    aromaRating < 1 || aromaRating > 5) {
+            if (!BeerRateChecker.isValid(aromaRating,tasteRating,colorRating)) {
                 // Display an error message or toast indicating the valid range of ratings
                 Toast.makeText(getApplicationContext(), "Please rate between 1 and 5", Toast.LENGTH_SHORT).show();
                 return; // Abort the submission if the ratings are not within the range
